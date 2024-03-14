@@ -1,0 +1,32 @@
+{
+  "name": "electron-with-react",
+  "version": "1.0.0",
+  "description": "electron with react",
+  "main": "index.js",
+  "author": "Eduardo Pereira <eduardo.pereira@compasso.com.br>",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "react:clean-build": "rimraf packages/react-app/build",
+    "react:start": "yarn workspace @electron-with-react/react-app start",
+    "react:build": "yarn workspace @electron-with-react/react-app build",
+    "electron:clean-build": "rimraf packages/electron-app/build",
+    "electron:build": "yarn workspace @electron-with-react/electron-app build",
+    "electron:start": "yarn workspace @electron-with-react/electron-app start",
+    "electron:dev": "yarn workspace @electron-with-react/electron-app dev",
+    "copy-react-build-to-electron-build": "copyfiles -V -u 3 'packages/react-app/build/**/*' packages/electron-app/build/public",
+    "start": "concurrently 'yarn react:start' 'yarn electron:start'",
+    "dev": "concurrently 'yarn react:start' 'yarn electron:dev'",
+    "build": "yarn react:clean-build && yarn react:build && yarn electron:clean-build && yarn electron:build && yarn copy-react-build-to-electron-build",
+    "dist": "yarn workspace @electron-with-react/electron-app dist",
+    "pack": "yarn workspace @electron-with-react/electron-app pack"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "copyfiles": "^2.4.1",
+    "rimraf": "^5.0.5"
+  }
+}
